@@ -12,12 +12,9 @@ interface ResultsProps {
 const Results: React.FC<ResultsProps> = ({ userAnswers, isDarkMode, onReset }) => {
     const [showSummary, setShowSummary] = useState(false);
 
-    let correctAnswers = 0;
-    userAnswers.forEach((answer, index) => {
-        if (answer === questions[index].correctAnswerId) {
-            correctAnswers++;
-        }
-    });
+    const correctAnswers = userAnswers.reduce((acc, answer, index) => {
+        return answer === questions[index].correctAnswerId ? acc + 1 : acc;
+    }, 0);
 
     const totalQuestions = questions.length;
     const scorePercentage = ((correctAnswers / totalQuestions) * 100).toFixed(1);
